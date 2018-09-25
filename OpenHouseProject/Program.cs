@@ -6,6 +6,7 @@ namespace OpenHouseProject
 {
     class Program
     {
+        //Typewriter for all text Method
         static void Writer(string message)
         {
             foreach(char letter in message)
@@ -15,6 +16,19 @@ namespace OpenHouseProject
             }
             Console.WriteLine();
         }
+        //Kitchen Text Method
+        static void KitchenLine()
+        {
+            Writer("You and your spouse walk into the kitchen and find a nice cozy area with lots of cabinets.\n" +
+                    "Looking at the sink you find that it's dirty, but when you turn it on it operates like normal.");
+        }
+        //Dining Room Text Method
+        static void DiningLine()
+        {
+            Writer("You walk into the dining room and are met with a medium sized table with old looking chairs.\n" +
+                    " You're tempted to sit in one of the chairs, but it looks unsafe. What do you do?");
+        }
+
         static void Main(string[] args)
         {
             List<string> rooms = new List<string>();
@@ -36,8 +50,8 @@ namespace OpenHouseProject
             //Kitchen start path
             if(response.ToUpper() == "Kitchen"||response.ToLower() == "kitchen")
             {
-                Writer("You and your spouse walk into the kitchen and find a nice cozy area with lots of cabinets.\n" +
-                    "Looking at the sink you find that it's dirty, but when you turn it on it operates like normal.");
+                KitchenLine();
+
                 Console.ReadLine();
                 Writer("You think you see something in the sink, but cant quite see what exactly it is.\nDo you try and get it?");
                 string shinyThing = Console.ReadLine();
@@ -67,8 +81,8 @@ namespace OpenHouseProject
                 //Kitchen start Dining Room path
                 if(response2.ToUpper() == "DINING ROOM"||response2.ToLower() == "dining room")
                 {
-                    Writer("You walk into the dining room and are met with a medium sized table with old looking chairs.\n" +
-                    " You're tempted to sit in one of the chairs, but it looks unsafe. What do you do?");
+                    DiningLine();
+
                     Writer("Sit");
                     Writer("Don't sit");
                     string sitChair = Console.ReadLine();
