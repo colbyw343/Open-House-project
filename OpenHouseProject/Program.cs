@@ -6,7 +6,7 @@ namespace OpenHouseProject
 {
     class Program
     {
-        //Typewriter for all text Method
+                                                     //Typewriter for all text Method
         static void Writer(string message)
         {
             foreach(char letter in message)
@@ -16,7 +16,7 @@ namespace OpenHouseProject
             }
             Console.WriteLine();
         }
-        //Kitchen Text Method
+                                                            //Kitchen Text Method
         static void KitchenLine()
         {
             Writer("You and your spouse walk into the kitchen and find a nice cozy area with lots of cabinets.\n" +
@@ -40,7 +40,7 @@ namespace OpenHouseProject
                 Writer("You decide that whatever is in that sink belongs to the homeowners, and its their problem.\n You move on.");
             }
         }
-        //Dining Room Text Method
+                                                        //Dining Room Text Method
         static void DiningLine()
         {
             Writer("You walk into the dining room and are met with a medium sized table with old looking chairs.\n" +
@@ -66,7 +66,7 @@ namespace OpenHouseProject
                 Console.ReadLine();
             }
         }
-        //Kid's Bedroom Text Method
+                                                    //Kid's Bedroom Text Method
         static void KidRoom()
         {
             Writer("You wonder around and find some stairs leading to the upper portion of the house." +
@@ -95,11 +95,51 @@ namespace OpenHouseProject
                 Writer("You then accidentally pull the trigger and the gun fires off a BB, \nbounces off the wall, " +
                     "and hits you in the eye");
                 Writer("Your spouse then takes you to the hospital.");
-                Writer("Maybe your parents were right.");
+                Writer("Maybe your parents were right, \"Ralphie\".");
                 Console.ReadLine();
                 return;
             }
+            if(bbResponse.ToUpper() == "NO"||bbResponse.ToLower() == "no")
+            {
+                Writer("As your remembering your childhood you remember your parents telling you that you could shoot your eye out.\n " +
+                    "You think it would be a bad idea to pick it up...just in case you did hurt yourself.");
+            }
 
+        }
+                                                        //Basement text method
+        static void BasementLine()
+        {
+            Writer("You find a door that looks like it could lead to a closet of some sort.\n You open it, and you are met" +
+                "with a wooden staircase leading to the lower half of the house.");
+            Console.ReadLine();
+            Writer("Once you walk down the creaky stairs you find a very nice mancave space.");
+            Writer("There's a mounted TV, a refrigerator that you imagine can only be filled with beer, \n" +
+                "and a couch accompanied with chairs that are in decent condition.");
+            Console.ReadLine();
+            //The TV Remote
+            Writer("You see the TV remote control laying on the arm of the couch,\n and you remember that your favorite team is playing today." +
+                "\n What do you do?");
+            Writer("Turn it on?");
+            Writer("Leave it");
+            string tvResponse = Console.ReadLine();
+            if(tvResponse.ToUpper() == "Turn It ON"||tvResponse.ToLower() == "turn it on")
+            {
+                Writer("You pick up the remote out of curiosity and turn on the TV.\n You flip through channels and finally find the right" +
+                    "one. You're just in time to see your team score a touchdown! Sweet!");
+                Console.ReadLine();
+            }
+            if (tvResponse.ToUpper() == "LEAVE IT" || tvResponse.ToLower() == "leave it")
+            {
+                Writer("You decide to leave it alone, because the homeowners may not want you messing with anything.");
+                Console.ReadLine();
+            }
+        }
+                                                        //Backyard text method
+        static void BackyardLine()
+        {
+            Writer("You decide to go to the backyard.\n You find the backdoor nearest the kitchen area, and open the door.");
+            Console.ReadLine();
+            Writer("You're presented with a fairly large back porch/patio area.\n It");
         }
                                                         //Actual Story
         static void Main(string[] args)
@@ -125,6 +165,7 @@ namespace OpenHouseProject
             if(response.ToUpper() == "Kitchen"||response.ToLower() == "kitchen")
             {
                 KitchenLine();
+                Console.ReadLine();
 
                 Writer("You decide to leave your spouse with the realtor and do your own exploring.\n You decide to go to the:");
                 Writer("Dining Room");
@@ -145,13 +186,29 @@ namespace OpenHouseProject
                     KidRoom();
                 }
 
+
             }
             //Dining Room start path
             if(response.ToUpper() == "Dining Room"||response.ToLower() == "dining room")
             {
                 DiningLine();
             }
-            Console.ReadLine();
+            //Kid Room start path
+            if (response.ToUpper() == "Kid's Bedroom" || response.ToLower() == "kid's bedroom" || response.ToUpper() == "KIDS BEDROOM" || response.ToLower() == "kids bedroom")
+            {
+                KidRoom();
+            }
+            //Basement start path
+            if(response.ToUpper() == "BASEMENT"||response.ToLower() == "basement")
+            {
+                BasementLine();
+            }
+            //Backyard start path
+            if(response.ToUpper() == "BACKYARD"||response.ToLower() == "backyard")
+            {
+                BackyardLine();
+            }
+                Console.ReadLine();
         }
     }
 }
