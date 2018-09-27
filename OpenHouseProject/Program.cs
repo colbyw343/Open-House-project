@@ -6,6 +6,7 @@ namespace OpenHouseProject
 {
     class Program
     {
+                                                            
                                                      //Typewriter for all text Method
         static void Writer(string message)
         {
@@ -16,6 +17,17 @@ namespace OpenHouseProject
             }
             Console.WriteLine();
         }
+                                                            //List of all the rooms
+        public static List<Rooms> ListAllRooms = new List<Rooms>();
+                                                    //List to display all the rooms
+        static void listOfRooms()
+        {
+            
+            for(int i = 0; i < ListAllRooms.Count; i++)
+            {
+                Writer(ListAllRooms[i].Name);
+            }
+        }
                                                             //Kitchen Text Method
         static void KitchenLine()
         {
@@ -24,7 +36,7 @@ namespace OpenHouseProject
             Console.ReadLine();
             Writer("You think you see something in the sink, but cant quite see what exactly it is.\nDo you try and get it?");
             string shinyThing = Console.ReadLine();
-            //Something in the sink
+                                                            //Something in the sink
             if (shinyThing.ToUpper() == "YES" || shinyThing.ToLower() == "yes")
             {
                 Writer("You're thinking that it could be something valuable, so you reach into the sink pipe to try and grab the item,\n" +
@@ -48,7 +60,7 @@ namespace OpenHouseProject
             Writer("Sit");
             Writer("Don't sit");
             string sitChair = Console.ReadLine();
-            //Sitting in the old chair
+                                                        //Sitting in the old chair
             if (sitChair.ToUpper() == "SIT" || sitChair.ToLower() == "sit")
             {
                 Writer("You decide to sit in one of the chairs. \nAs you're seated, you lean back in the chair and accidentally fall down.");
@@ -76,7 +88,7 @@ namespace OpenHouseProject
             Writer("You see a smaller bed, a dresser, a small looking closet, a fan on the ceiling, and a window looking at the " +
                 "backyard.");
             Console.ReadLine();
-            //The BB Gun
+                                                            //The BB Gun
             Writer("You spot a Red Ryder BB gun in the corner of the room.\n" +
                 " You had one when you were a kid, and you wanna take a closer look.\n" +
                 " Do you pick it up?");
@@ -106,6 +118,11 @@ namespace OpenHouseProject
             }
 
         }
+                                                        //Master Bedroom text method
+        static void MasterLine()
+        {
+            Writer("You find the master bedroom ");
+        }
                                                         //Basement text method
         static void BasementLine()
         {
@@ -116,7 +133,7 @@ namespace OpenHouseProject
             Writer("There's a mounted TV, a refrigerator that you imagine can only be filled with beer, \n" +
                 "and a couch accompanied with chairs that are in decent condition.");
             Console.ReadLine();
-            //The TV Remote
+                                                            //The TV Remote
             Writer("You see the TV remote control laying on the arm of the couch,\n and you remember that your favorite team is playing today." +
                 "\n What do you do?");
             Writer("Turn it on?");
@@ -139,29 +156,58 @@ namespace OpenHouseProject
         {
             Writer("You decide to go to the backyard.\n You find the backdoor nearest the kitchen area, and open the door.");
             Console.ReadLine();
-            Writer("You're presented with a fairly large back porch/patio area.\n It");
+            Writer("You're presented with a fairly large back porch/patio area.\n It looks like its around 20 feet wide, and 25 feet long.\n" +
+                " There are chairs along the walls of the porch with some smaller tables accompanying them.");
+            Console.ReadLine();
+            Writer("");
         }
-                                                        //Actual Story
+                                                            //Actual Story
         static void Main(string[] args)
         {
-            //List for all rooms
-            List<string> rooms = new List<string>();
+            Rooms kitchen = new Rooms()
+            {
+                Name = "Kitchen",
+                Description = KitchenLine()
+            }; ListAllRooms.Add(kitchen);
+            
+            Rooms diningRoom = new Rooms()
+            {
+                Name = "Dining Room",
+                Description = DiningLine()
+            }; ListAllRooms.Add(diningRoom);
 
-            rooms.Add("Kitchen");
-            rooms.Add("Dining Room");
-            rooms.Add("Kid's Bedroom");
-            rooms.Add("Basement");
-            rooms.Add("Backyard");
+            Rooms kidsRoom = new Rooms()
+            {
+                Name = "Kid's Bedroom",
+                Description = KidRoom()
+            }; ListAllRooms.Add(kidsRoom);
+
+            Rooms masterRoom = new Rooms()
+            {
+                Name = "Master Bedroom",
+                Description = MasterLine()
+            }; ListAllRooms.Add(masterRoom);
+
+            Rooms basement = new Rooms()
+            {
+                Name = "Basement",
+                Description = BasementLine()
+            }; ListAllRooms.Add(basement);
+
+            Rooms backyard = new Rooms()
+            {
+                Name = "Backyard",
+                Description = BackyardLine()
+            }; ListAllRooms.Add(backyard);
+            
+            
             Writer("You and your spouse are going to see an open house today.\nYou arrive and the realtor greets" +
                 " you and says \"Hello! Welcome to the open house!\" You all walk\n inside and the realtor asks you,\n" +
                 "\"Which room would you like to see first?\"");
-            foreach(string room in rooms)
-            {
-                Writer(room);
-            }
+            listOfRooms();
 
             string response = Console.ReadLine();
-            //Kitchen start path
+                                                        //Kitchen start path
             if(response.ToUpper() == "Kitchen"||response.ToLower() == "kitchen")
             {
                 KitchenLine();
@@ -175,12 +221,12 @@ namespace OpenHouseProject
                 Writer("Backyard");
 
                 string response2 = Console.ReadLine();
-                //Kitchen start Dining Room path
+                                                         //Kitchen start Dining Room path
                 if(response2.ToUpper() == "DINING ROOM"||response2.ToLower() == "dining room")
                 {
                     DiningLine();
                 }
-                //Kitchen start, Kid's Bedroom
+                                                        //Kitchen start, Kid's Bedroom
                 if(response2.ToUpper() == "Kid's Bedroom"||response2.ToLower() == "kid's bedroom"||response2.ToUpper() == "KIDS BEDROOM"||response2.ToLower() == "kids bedroom")
                 {
                     KidRoom();
@@ -188,22 +234,22 @@ namespace OpenHouseProject
 
 
             }
-            //Dining Room start path
+                                                            //Dining Room start path
             if(response.ToUpper() == "Dining Room"||response.ToLower() == "dining room")
             {
                 DiningLine();
             }
-            //Kid Room start path
+                                                            //Kid Room start path
             if (response.ToUpper() == "Kid's Bedroom" || response.ToLower() == "kid's bedroom" || response.ToUpper() == "KIDS BEDROOM" || response.ToLower() == "kids bedroom")
             {
                 KidRoom();
             }
-            //Basement start path
+                                                            //Basement start path
             if(response.ToUpper() == "BASEMENT"||response.ToLower() == "basement")
             {
                 BasementLine();
             }
-            //Backyard start path
+                                                                //Backyard start path
             if(response.ToUpper() == "BACKYARD"||response.ToLower() == "backyard")
             {
                 BackyardLine();
