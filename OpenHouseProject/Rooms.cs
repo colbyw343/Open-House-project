@@ -7,7 +7,7 @@ namespace OpenHouseProject
     class Rooms
     {
         public string Name { get; set; }
-        public void Description { get; set; }
+        public Func<bool> runStory { get; set; }
         
     }
 }
