@@ -12,7 +12,7 @@ namespace OpenHouseProject
         {
             foreach (char letter in message)
             {
-                
+                Console.ForegroundColor = ConsoleColor.White;
                 Thread.Sleep(25);
                 Console.Write(letter);
             }
@@ -294,7 +294,7 @@ namespace OpenHouseProject
                 string response = Console.ReadLine();
                 foreach (Rooms room in ListAllRooms)
                 {
-                    if (response.ToUpper() == room.Name||response.ToLower() == room.Name)
+                    if (response == room.Name)
                     {
                         Console.Clear();
                         room.runStory();
