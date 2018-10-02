@@ -681,30 +681,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cocol\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/burnfiend/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cocol\\source\\repos\\OpenHouseProject\\OpenHouseProject\\OpenHouseProject.csproj",
+      "projectUniqueName": "/Users/burnfiend/Desktop/Open-House-project/OpenHouseProject/OpenHouseProject.csproj",
       "projectName": "OpenHouseProject",
-      "projectPath": "C:\\Users\\cocol\\source\\repos\\OpenHouseProject\\OpenHouseProject\\OpenHouseProject.csproj",
-      "packagesPath": "C:\\Users\\cocol\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cocol\\source\\repos\\OpenHouseProject\\OpenHouseProject\\obj\\",
+      "projectPath": "/Users/burnfiend/Desktop/Open-House-project/OpenHouseProject/OpenHouseProject.csproj",
+      "packagesPath": "/Users/burnfiend/.nuget/packages/",
+      "outputPath": "/Users/burnfiend/Desktop/Open-House-project/OpenHouseProject/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\cocol\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/burnfiend/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -722,8 +720,9 @@
       "netcoreapp2.1": {
         "dependencies": {
           "Microsoft.NETCore.App": {
+            "suppressParent": "All",
             "target": "Package",
-            "version": "[2.1.0, )",
+            "version": "2.1.0",
             "autoReferenced": true
           }
         },
