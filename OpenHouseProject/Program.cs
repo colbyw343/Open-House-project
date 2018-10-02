@@ -7,13 +7,13 @@ namespace OpenHouseProject
     class Program
     {
 
-                                                        //Typewriter for all text Method
-        static void Writer(string message)
+                                                       //Typewriter for all text Method
+        static void Writer(string message, ConsoleColor color = ConsoleColor.Blue, int delay = 25)
         {
+            Console.ForegroundColor = color;
             foreach (char letter in message)
             {
-                Console.ForegroundColor = ConsoleColor.White;
-                Thread.Sleep(25);
+                Thread.Sleep(delay);
                 Console.Write(letter);
             }
             Console.WriteLine();
@@ -61,8 +61,7 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Writer("The realtor has to call the fire department to get your hand unstuck from the sink, and the homeowners kick you out.");
                 Writer("Your day is ruined.");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Writer("Game Over");
+                Writer("Game Over", ConsoleColor.DarkRed, 100);
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
@@ -90,8 +89,7 @@ namespace OpenHouseProject
                 Writer("The realtor had to call the ambulance to take you to the hospital.");
                 Console.ReadLine();
                 Writer("Needless to say, you left early that day.");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Writer("Game Over");
+                Writer("Game Over", ConsoleColor.DarkRed, 100);
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
@@ -134,8 +132,7 @@ namespace OpenHouseProject
                     "and hits you in the eye.");
                 Writer("Your spouse then takes you to the hospital.");
                 Writer("Maybe your parents were right, \"Ralphie\".");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Writer("Game Over");
+                Writer("Game Over", ConsoleColor.DarkRed, 100);
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
@@ -174,11 +171,10 @@ namespace OpenHouseProject
                 Writer("You walk even farther and find a snowy landscape filled with trees.\n You walk past the trees and find a single lampost.\n" +
                     " You look back and you can't see any evidence of where you came from.");
                 Console.ReadLine();
-                Writer("Wait.");
+                Writer("Wait.", ConsoleColor.Blue, 100);
                 Console.ReadLine();
                 Writer("You're in Narnia. Good job.");
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Writer("Game Over");
+                Writer("Game Over", ConsoleColor.DarkRed, 100);
                 Console.ReadLine();
                 Environment.Exit(-1);
                 
@@ -288,7 +284,7 @@ namespace OpenHouseProject
             while (ListAllRooms.Count > 0)
             {
                 Writer("\"Which room would you like to see?\"");
-                //Writer("");
+                Writer("Please type the room you would like to see.");
                 listOfRooms();
 
                 string response = Console.ReadLine();
