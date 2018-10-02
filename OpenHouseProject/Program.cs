@@ -21,7 +21,7 @@ namespace OpenHouseProject
                                                             //List of all the rooms
         public static List<Rooms> ListAllRooms = new List<Rooms>();
                                                         //List to display all the rooms
-        static void listOfRooms()
+        static void ListOfRooms()
         {
 
             for (int i = 0; i < ListAllRooms.Count; i++)
@@ -95,7 +95,8 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
-            if (sitChair.ToUpper() == "Don't Sit" || sitChair.ToLower() == "don't sit" || sitChair.ToUpper() == "Dont Sit" || sitChair.ToLower() == "dont sit")
+            if (sitChair.ToUpper() == "Don't Sit" || sitChair.ToLower() == "don't sit" || 
+                sitChair.ToUpper() == "Dont Sit" || sitChair.ToLower() == "dont sit")
             {
                 Writer("You don't think it's a good idea to sit in these chairs, so if you do buy this house\n you'll buy some new chairs.");
                 Console.ReadLine();
@@ -243,43 +244,43 @@ namespace OpenHouseProject
             Rooms livingRoom = new Rooms()
             {
                 Name = "Living Room",
-                runStory = () => LivingRoomLine()
+                runStory = LivingRoomLine
             }; ListAllRooms.Add(livingRoom);
 
             Rooms kitchen = new Rooms()
             {
                 Name = "Kitchen",
-                runStory = () => KitchenLine()
+                runStory = KitchenLine
             }; ListAllRooms.Add(kitchen);
 
             Rooms diningRoom = new Rooms()
             {
                 Name = "Dining Room",
-                runStory = () => DiningLine()
+                runStory = DiningLine
             }; ListAllRooms.Add(diningRoom);
 
             Rooms kidsRoom = new Rooms()
             {
                 Name = "Kid's Bedroom",
-                runStory = () => KidRoom()
+                runStory = KidRoom
             }; ListAllRooms.Add(kidsRoom);
 
             Rooms masterRoom = new Rooms()
             {
                 Name = "Master Bedroom",
-                runStory = () => MasterLine()
+                runStory = MasterLine
             }; ListAllRooms.Add(masterRoom);
 
             Rooms basement = new Rooms()
             {
                 Name = "Basement",
-                runStory = () => BasementLine()
+                runStory = BasementLine
             }; ListAllRooms.Add(basement);
 
             Rooms backyard = new Rooms()
             {
                 Name = "Backyard",
-                runStory = () => BackyardLine()
+                runStory = BackyardLine
             }; ListAllRooms.Add(backyard);
 
             Writer("You and your spouse are going to see an open house today.\nYou arrive and the realtor greets" +
@@ -289,7 +290,7 @@ namespace OpenHouseProject
             {
                 Writer("\"Which room would you like to see?\"");
                 //Writer("");
-                listOfRooms();
+                ListOfRooms();
 
                 string response = Console.ReadLine();
                 foreach (Rooms room in ListAllRooms)
