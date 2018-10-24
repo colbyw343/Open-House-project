@@ -23,10 +23,9 @@ namespace OpenHouseProject
                                                         //List to display all the rooms
         static void ListOfRooms()
         {
-
-            for (int i = 0; i < ListAllRooms.Count; i++)
+            foreach (Rooms room in ListAllRooms)
             {
-                Writer(ListAllRooms[i].Name);
+                Writer(room.Name);
             }
         }
                                                             //Living Room Line
