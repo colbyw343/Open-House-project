@@ -23,10 +23,9 @@ namespace OpenHouseProject
                                                         //List to display all the rooms
         static void ListOfRooms()
         {
-
-            for (int i = 0; i < ListAllRooms.Count; i++)
+            foreach (Rooms room in ListAllRooms)
             {
-                Writer(ListAllRooms[i].Name);
+                Writer(room.Name);
             }
         }
                                                             //Living Room Line
@@ -316,7 +315,7 @@ namespace OpenHouseProject
             Writer("5)It was horrible");
             string houseReview = Console.ReadLine();
 
-            if(houseReview.ToUpper() == "IT WAS AWESOME"||houseReview.ToLower() == "it was awesome"||houseReview == "1")
+            if (houseReview.ToUpper() == "IT WAS AWESOME" || houseReview == "1")
             {
                 Writer("\"Well I'm glad you liked it! Let me know if you'd like to make an offer\nand we can get connected with " +
                     "the owners!\"the realtor replied.");
@@ -326,7 +325,7 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
-            if(houseReview.ToUpper() == "IT WAS NICE"||houseReview.ToLower() == "it was nice"||houseReview == "2")
+            else if (houseReview.ToUpper() == "IT WAS NICE" || houseReview == "2")
             {
                 Writer("\"Well I'm glad you think so! If you're interested, I can get the owners and we can talk about pricing!\"");
                 Writer("In the later years you do end up buying that very house, but with a small bit of regret.");
@@ -335,7 +334,7 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
-            if(houseReview.ToUpper() == "It was average"||houseReview.ToLower() == "IT WAS AVERAGE"||houseReview == "3")
+            else if (houseReview.ToUpper() == "IT WAS AVERAGE"|| houseReview == "3")
             {
                 Writer("\"Well keep in mind the owners did have a short amount of time to get this house ready before today.\nBut if you're interested," +
                     "I can get a hold of the owners and see what price range we can come up with!\"");
@@ -345,7 +344,7 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
-            if(houseReview.ToUpper() == "IT WAS BAD"||houseReview.ToLower() == "it was bad"||houseReview == "4")
+            else if (houseReview.ToUpper() == "IT WAS BAD" || houseReview == "4")
             {
                 Writer("\"I'm sorry to hear that! I'll definitely let the owners know that you weren't pleased with the house!\"");
                 Writer("Your hunt for a home continues on.");
@@ -354,7 +353,7 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
-            if (houseReview.ToUpper() == "IT WAS HORRIBLE" || houseReview.ToLower() == "it was horrible"||houseReview == "5")
+            else if (houseReview.ToUpper() == "IT WAS HORRIBLE" || houseReview == "5")
             {
                 Writer("\"I'm terribly sorry to hear that! I'll let the owners know about how you felt about their house!\"");
                 Writer("You couldn't believe how terrible that house looked.");
