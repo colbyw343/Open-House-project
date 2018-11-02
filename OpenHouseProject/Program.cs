@@ -21,7 +21,7 @@ namespace OpenHouseProject
                                                             //List of all the rooms
         public static List<Rooms> ListAllRooms = new List<Rooms>();
                                                         //List to display all the rooms
-        static void listOfRooms()
+        static void ListOfRooms()
         {
 
             for (int i = 0; i < ListAllRooms.Count; i++)
@@ -93,7 +93,8 @@ namespace OpenHouseProject
                 Console.ReadLine();
                 Environment.Exit(-1);
             }
-            if (sitChair.ToUpper() == "Don't Sit" || sitChair.ToLower() == "don't sit" || sitChair.ToUpper() == "Dont Sit" || sitChair.ToLower() == "dont sit")
+            if (sitChair.ToUpper() == "Don't Sit" || sitChair.ToLower() == "don't sit" || 
+                sitChair.ToUpper() == "Dont Sit" || sitChair.ToLower() == "dont sit")
             {
                 Writer("You don't think it's a good idea to sit in these chairs, so if you do buy this house\n you'll buy some new chairs.");
                 Console.ReadLine();
@@ -154,7 +155,7 @@ namespace OpenHouseProject
             Writer("You walk into the master bedroom and see the full-size bed pushed up against the back wall, \na mounted TV on the adjacent " +
                 "wall, a dresser underneath the TV, and a cool looking wardrobe near the corner of the room.");
             Console.ReadLine();
-            //The Wardrobe
+                                                                        //The Wardrobe
             Writer("All things aside, your very curious about this wardrobe. Do you want to take a closer look?");
             Writer("Yes");
             Writer("No");
@@ -232,6 +233,62 @@ namespace OpenHouseProject
             Writer("Other than the grass problem, it's a pretty flat, maintainable looking yard.\nIt looks to be around an acre. Nice.");
             return true;
         }
+
+        static bool GuestBathroomLine()
+        {
+            Writer("You're thinking about what the guest bathroom looks like, so you find the bathroom on the main level close to the living room area.\n " +
+                "Other than the hardwood floor, and the shiny mirror right above the sink, theres nothing else particularly exciting about it.\n It comes with a standard " +
+                "toilet, a sink, and a mirror (as mentioned before).");
+            Console.ReadLine();
+            return true;
+        }
+
+        static bool MasterBathroomLine()
+        {
+            Writer("You're curious about the master bathroom, so you go and take a look.");
+            Console.ReadLine();
+            Writer("As you step into the massive bathroom, you notice that there appears to be a walk-in shower, AND a full-size bathtub. Looks like somebody invested " +
+                "a lot into their bathroom...");
+            Console.ReadLine();
+            Writer("Other than those two features, the bathroom has a nice tile floor, 2 sets of sinks side-by-side, and a towel rack on the adjacent wall from the sinks.");
+            Console.ReadLine();
+                                                                                    //The Knob
+            Writer("Strange...", ConsoleColor.Blue, 100);
+            Writer("You see a door knob inside the walk-in shower!\n As you look at it, you almost feel spooked. Like there's something evil about it.");
+            Writer("Do you go investigate?");
+            Writer("Yes");
+            Writer("No");
+            string response = Console.ReadLine();
+            if(response.ToUpper() == "YES")
+            {
+                Console.Clear();
+                Writer("You have a shake in your hand as you open the door to the walk-in shower.\n You can't help but feel that this does not lead to anything good.");
+                Console.ReadLine();
+                Writer("But at the same time, you want to turn the knob, because it could open up to something amazing!");
+                Writer("Are you sure you want to turn the knob?");
+                string responseAgain = Console.ReadLine();
+                if(responseAgain.ToUpper() == "YES")
+                {
+                    Writer("You make a final decision to turn the knob, so you reach your hand out to turn it and...");
+                    Writer("........", ConsoleColor.Blue, 100);
+                    Writer("Nothing happened. What a let down.");
+                    Console.ReadLine();
+                }
+                if(responseAgain.ToUpper() == "NO")
+                {
+                    Writer("No, you can't turn that knob. You're getting really bad vibes from this strange knob, so you decide to not turn it.\n Probably for the better.");
+                    Console.ReadLine();
+                }
+            }
+            if(response.ToUpper() == "NO")
+            {
+                Console.Clear();
+                Writer("You think it's a little weird to have a knob in their shower, and that's all that you think about it.");
+                Writer("You move on.");
+                return true;
+            }
+            return true;
+        }
                                                                 //Actual Story
         static void Main(string[] args)
         {
@@ -239,58 +296,114 @@ namespace OpenHouseProject
             Rooms livingRoom = new Rooms()
             {
                 Name = "Living Room",
-                runStory = () => LivingRoomLine()
+                runStory = LivingRoomLine
             }; ListAllRooms.Add(livingRoom);
 
             Rooms kitchen = new Rooms()
             {
                 Name = "Kitchen",
-                runStory = () => KitchenLine()
+                runStory = KitchenLine
             }; ListAllRooms.Add(kitchen);
 
             Rooms diningRoom = new Rooms()
             {
                 Name = "Dining Room",
-                runStory = () => DiningLine()
+                runStory = DiningLine
             }; ListAllRooms.Add(diningRoom);
 
             Rooms kidsRoom = new Rooms()
             {
                 Name = "Kid's Bedroom",
-                runStory = () => KidRoom()
+                runStory = KidRoom
             }; ListAllRooms.Add(kidsRoom);
 
             Rooms masterRoom = new Rooms()
             {
                 Name = "Master Bedroom",
-                runStory = () => MasterLine()
+                runStory = MasterLine
             }; ListAllRooms.Add(masterRoom);
 
             Rooms basement = new Rooms()
             {
                 Name = "Basement",
-                runStory = () => BasementLine()
+                runStory = BasementLine
             }; ListAllRooms.Add(basement);
 
             Rooms backyard = new Rooms()
             {
                 Name = "Backyard",
-                runStory = () => BackyardLine()
+                runStory = BackyardLine
             }; ListAllRooms.Add(backyard);
 
-            Writer("You and your spouse are going to see an open house today.\nYou arrive and the realtor greets" +
+            Rooms guestBathroom = new Rooms()
+            {
+                Name = "Guest Bathroom",
+                runStory = GuestBathroomLine
+            }; ListAllRooms.Add(guestBathroom);
+
+
+            string house = @" 
+           )
+         ( _   _._
+          |_|-'_~_`-._
+       _.-'-_~_-~_-~-_`-._
+   _.-'_~-_~-_-~-_~_~-_~-_`-._
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    |  []  []   []   []  [] |
+jgs |           __    ___   |
+  ._|  []  []  | .|  [___]  |_._._._._._._._._._._._._._._._._.
+  |=|________()|__|()_______|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|
+^^^^^^^^^^^^^^^ === ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _______      ===
+   <_4sale_>       ===
+      ^|^             ===
+       |                 ===";
+
+
+            Writer("You have a set amount of money that you have been saving for a long while now, and you're going to see an open house today.\n How much are you willing " +
+                "to spend on a house?");
+            Writer("(Type the number that corresponds to the amount)");
+            Writer("1) $0 - $50,000");
+            Writer("2) $50,000 - $100,000");
+            Writer("3) $100,000 - $200,000");
+            Writer("4) $200,000 - $300,000");
+            Writer("5) $300,000 - $500,000");
+            string response = Console.ReadLine();
+            if(response == "1")
+            {
+                Writer("Go get some money.");
+                return;
+            }
+            if(response == "2")
+            {
+                ListAllRooms.Remove(basement);
+                ListAllRooms.Remove(guestBathroom);
+                ListAllRooms.Remove(backyard);
+            }
+            if(response == "3")
+            {
+                ListAllRooms.Remove(basement);
+                ListAllRooms.Remove(guestBathroom);
+            }
+            if(response == "4")
+            {
+                ListAllRooms.Remove(guestBathroom);
+            }
+            Writer(house);
+            Writer("You and your spouse are going to see this open house today.\nYou arrive and the realtor greets" +
             " you and says \"Hello! Welcome to the open house!\" You all walk\n inside and the realtor asks you,");
 
             while (ListAllRooms.Count > 0)
             {
                 Writer("\"Which room would you like to see?\"");
-                Writer("Please type the room you would like to see.");
-                listOfRooms();
 
-                string response = Console.ReadLine();
+                Writer("Please type the room you would like to see.");
+                ListOfRooms();
+
+                string response2 = Console.ReadLine();
                 foreach (Rooms room in ListAllRooms)
                 {
-                    if (response == room.Name)
+                    if (response2 == room.Name)
                     {
                         Console.Clear();
                         room.runStory();
