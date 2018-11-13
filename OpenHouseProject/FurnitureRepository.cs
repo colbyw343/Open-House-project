@@ -52,32 +52,64 @@ namespace OpenHouseProject
                 return products;
             }
         }
-        public List<Furniture> ShowSpecificFurniture(Furniture thing)
+        public void ShowSpecificFurniture(int id)
         {
             MySqlConnection thing2 = new MySqlConnection(connStr);
-            List<Furniture> furnitures = new List<Furniture>();
             using (thing2)
             {
                 thing2.Open();
                 MySqlCommand cmd = thing2.CreateCommand();
                 cmd.CommandText = "Select * from products Where id = @id";
-                cmd.Parameters.AddWithValue("id", thing.Id);
+                cmd.Parameters.AddWithValue("id", id);
                 MySqlDataReader rdr = cmd.ExecuteReader();
 
                 while (rdr.Read())
                 {
                     Furniture product = new Furniture()
                     {
-                        Id = (int)rdr["Id"],
-                        Name = thing.Name,
-                        Price = thing.Price
+                        Id = (int)rdr["id"],
+                        Name = rdr["name"].ToString(),
+                        Price = (double)rdr["price"]
                     };
-                    furnitures.Add(product);
                     Console.WriteLine($"{product.Id}.....{product.Name}.....{product.Price}");
                 }
+            }
+        }
 
-                return furnitures;
-
+        public double GetPriceOfSpecificFurn(int id)
+        {
+            MySqlConnection thing = new MySqlConnection(connStr);
+            Furniture product = new Furniture();
+            using (thing)
+            {
+                thing.Open();
+                MySqlCommand cmd = thing.CreateCommand();
+                cmd.CommandText = "SELECT price FROM products WHERE id = @id";
+                cmd.Parameters.AddWithValue("id", id);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    product.Price = (double)rdr["Price"];
+                }
+                return product.Price;
+            }
+        }
+        public string GetNameOfSpecificFurn(int id)
+        {
+            MySqlConnection thing = new MySqlConnection(connStr);
+            Furniture product = new Furniture();
+            using (thing)
+            {
+                thing.Open();
+                MySqlCommand cmd = thing.CreateCommand();
+                cmd.CommandText = "SELECT name FROM products WHERE id = @id";
+                cmd.Parameters.AddWithValue("id", id);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    product.Name = rdr["name"].ToString();
+                }
+                return product.Name;
             }
         }
     }

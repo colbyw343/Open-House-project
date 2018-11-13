@@ -11,8 +11,19 @@ namespace OpenHouseProject
 {
     class Program
     {
-        public static double newBudget = 0;
         public static int furnCount = 0;
+        public static double newBudget = 0;
+        public static List<Rooms> BuilderRooms = new List<Rooms>();
+        public static List<string> livingRoomFurn = new List<string>();
+        public static List<string> kitchenRoomFurn = new List<string>();
+        public static List<string> bathRoomFurn = new List<string>();
+        public static List<string> upBedRoomFurn = new List<string>();
+        public static List<string> upBathRoomFurn = new List<string>();
+        public static List<string> atticRoomFurn = new List<string>();
+        public static List<string> backyardRoomFurn = new List<string>();
+        public static List<string> masterRoomFurn = new List<string>();
+        public static List<string> basementRoomFurn = new List<string>();
+        public static List<string> diningRoomFurn = new List<string>();
         //Typewriter for all text Method
         static void Writer(string message, ConsoleColor color = ConsoleColor.Blue, int delay = 25)
         {
@@ -36,75 +47,121 @@ namespace OpenHouseProject
             }
         }
 
-        
+        //Adding More Furniture to Rooms
         static void AddingMoreFurniture()
         {
             if (newBudget < 199.99)
             {
                 Writer("Uh-oh, there isnt enough money in the budget to buy furniture!");
-                Writer("Looks like we'll have to skip getting furniture until you can get more money!");
-                return;
-            }
-            FurnitureRepository thing = new FurnitureRepository();
-            Writer("Please type the product id of the furniture you would like to put in your house.");
-            string otherThing = Console.ReadLine();
-            int furnitureResponse = int.Parse(otherThing);
-            Writer("What is the name of this furniture");
-            string name = Console.ReadLine();
-            Writer("Finally, what is the price of this piece?");
-            string furnPrice = Console.ReadLine();
-            double price = double.Parse(furnPrice);
-            Furniture furn = new Furniture()
-            {
-                Id = furnitureResponse,
-                Name = name,
-                Price = price
-            };
-
-            Writer("Is this the furniture you want?");
-            thing.ShowSpecificFurniture(furn);
-            string answer = Console.ReadLine();
-            if(newBudget == 0)
-            {
-                Writer("Uh-oh! You don't have any money left!");
-                Writer("Looks like we can't buy anymore furniture.");
-                Console.ReadLine();
-                return;
-            }
-            if(newBudget < furn.Price)
-            {
-                Writer($"Oops! You only have ${newBudget} and are not able to purchase this furniture.");
-                Writer("Would you like to try again?");
-                string budgetResponse = Console.ReadLine();
-                if(budgetResponse.ToUpper() == "YES")
-                {
-                    AddingMoreFurniture();
-                }
+                Writer("Looks like we'll have to move on until you can get more money!");
                 return;
             }
 
-            if (answer.ToUpper() == "YES")
+            FurnitureRepository repo = new FurnitureRepository();
+            foreach (Rooms room in BuilderRooms)
             {
-                furnCount++;
-                newBudget = newBudget - furn.Price;
-                Writer($"After purchasing this piece of furniture, the remaining budget is ${newBudget}.");
-                Console.ReadLine();
-                Writer("Would you like to add more furniture?");
-                string addingFurn = Console.ReadLine();
-                if (addingFurn.ToUpper() == "YES")
+                Writer("Here are all the products that you can choose from.");
+                repo.ShowAllProducts();
+
+                Writer("Please type the product id of the furniture you would like to put in your house.");
+                string productResponse = Console.ReadLine();
+                int furnitureResponse = int.Parse(productResponse);
+                Furniture furn = new Furniture()
                 {
-                    AddingMoreFurniture();
-                }
-                if(addingFurn.ToUpper() == "NO")
+                    Id = furnitureResponse
+                };
+
+                Writer("Is this the furniture you want?");
+                repo.ShowSpecificFurniture(furnitureResponse);
+                string answer = Console.ReadLine();
+                if (newBudget == 0)
                 {
+                    Writer("Uh-oh! You don't have any money left!");
+                    Writer("Looks like we can't buy anymore furniture.");
+                    Console.ReadLine();
                     return;
                 }
+                if (newBudget < furn.Price)
+                {
+                    Writer($"Oops! You only have ${newBudget} and are not able to purchase this furniture.");
+                    Writer("Would you like to try again?");
+                    string budgetResponse = Console.ReadLine();
+                    if (budgetResponse.ToUpper() == "YES")
+                    {
+                        AddingMoreFurniture();
+                    }
+                    return;
+                }
+                if (answer.ToUpper() == "YES")
+                {
+                    Writer("Please pick the room that you would like to put this furniture in.");
+                    for (int i = 0; i < BuilderRooms.Count; i++)
+                    {
+                        Writer(BuilderRooms[i].Name);
+                    }
+                    string roomResponse = Console.ReadLine();
+                    if (roomResponse.ToUpper() == "LIVING ROOM")
+                    {
+                        livingRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "KITCHEN")
+                    {
+                        kitchenRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "BATHROOM")
+                    {
+                        bathRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "UPSTAIRS BEDROOM")
+                    {
+                        upBedRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "UPSTAIRS BATHROOM")
+                    {
+                        upBathRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "ATTIC")
+                    {
+                        atticRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "BACKYARD")
+                    {
+                        backyardRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "MASTER BEDROOM")
+                    {
+                        masterRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "BASEMENT")
+                    {
+                        basementRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    if (roomResponse.ToUpper() == "DINING ROOM")
+                    {
+                        diningRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
+                    }
+                    newBudget -= repo.GetPriceOfSpecificFurn(furnitureResponse);
+                    Writer($"After purchasing this furniture, the remaining budget is {newBudget}.");
+                    furnCount++;
+                    Console.ReadLine();
+                    Writer("Do you want to add more furniture?");
+                    Writer("Maybe to another room?");
+                    string addMore = Console.ReadLine();
+                    if (addMore.ToUpper() == "YES")
+                    {
+                        AddingMoreFurniture();
+                    }
+                    return;
+                }
+                if (answer.ToUpper() == "NO")
+                {
+                    Writer("Alright, let's try again from the beginning.");
+                    Console.ReadLine();
+                    AddingMoreFurniture();
+                }
+            }
 
-            }
-            if (answer.ToUpper() == "NO")
-            {
-                AddingMoreFurniture();
-            }
+
         }
 
         //Living Room Line
@@ -371,7 +428,7 @@ namespace OpenHouseProject
         //Actual Story
         static void Main(string[] args)
         {
-
+            //Setting up the rooms for the open house
             Rooms livingRoom = new Rooms()
             {
                 Name = "Living Room",
@@ -420,8 +477,14 @@ namespace OpenHouseProject
                 runStory = GuestBathroomLine
             }; ListAllRooms.Add(guestBathroom);
 
+            Rooms masterBathroom = new Rooms()
+            {
+                Name = "Master Bathroom",
+                runStory = MasterBathroomLine
+            }; ListAllRooms.Add(masterBathroom);
 
-            string house = @" 
+            //nice little house
+            string midHouse = @" 
            )
          ( _   _._
           |_|-'_~_`-._
@@ -438,251 +501,426 @@ jgs |           __    ___   |
       ^|^             ===
        |                 ===";
 
+            string smallHouse = @"
+         `'::.
+    _________H ,%%&%,
+   /\     _   \%&&%%&%
+  /  \___/^\___\%&%%&&
+  |  | []   [] |%\Y&%'
+  |  |   .-.   | ||  
+~~@._|@@_|||_@@|~||~~~~~~~~~~~~~
+     `   ) )";
+
+            string midToBigHouse = @"
+                           ====
+                           !!!!
+      ==========================
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  ||      _____          _____    ||
+  ||      | | |          | | |    ||
+  ||      |-|-|          |-|-|    ||
+  ||      #####          #####    ||
+  ||                              ||
+  ||      _____   ____   _____    ||
+  ||      | | |   @@@@   | | |    ||
+  ||      |-|-|   @@@@   |-|-|    ||
+  ||      #####   @@*@   #####    ||
+  ||              @@@@            ||
+******************____****************
+**************************************";
+
+            string bigHouse = @"    
+    ) )        /\
+   =====      /  \
+  _|___|_____/ __ \____________
+ |::::::::::/ |  | \:::::::::::|
+ |:::::::::/  ====  \::::::::::|
+ |::::::::/__________\:::::::::|
+ |_________|  ____  |__________|
+  | ______ | / || \ | _______ |
+  ||  |   || ====== ||   |   ||
+  ||--+---|| |    | ||---+---||
+  ||__|___|| |   o| ||___|___||
+  |========| |____| |=========|
+ (^^-^^^^^-|________|-^^^--^^^)
+ (,, , ,, ,/________\,,,, ,, ,)
+','',,,,' /__________\,,,',',;;";
+
 
             Writer("You have been saving money for quite a while now, and you would like to purchase a house. You have 2 options.\n1) Go see an open house.\n2) Build a house.");
             string eitherBuildOrSee = Console.ReadLine();
-            if (eitherBuildOrSee == "1")
+            bool result = Int32.TryParse(eitherBuildOrSee, out int num);
+            while (result)
             {
-                Writer("How much are you willing to spend on a house?");
-                Writer("(Type the number that corresponds to the amount)");
-                Writer("1) $0 - $50,000");
-                Writer("2) $50,000 - $100,000");
-                Writer("3) $100,000 - $200,000");
-                Writer("4) $200,000 - $300,000");
-                Writer("5) $300,000 - $500,000");
-                string response = Console.ReadLine();
-                if (response == "1")
+                if (num == 1)
                 {
-                    Writer("Go get some money.");
-                    return;
-                }
-                if (response == "2")
-                {
-                    ListAllRooms.Remove(basement);
-                    ListAllRooms.Remove(guestBathroom);
-                    ListAllRooms.Remove(backyard);
-                }
-                if (response == "3")
-                {
-                    ListAllRooms.Remove(basement);
-                    ListAllRooms.Remove(guestBathroom);
-                }
-                if (response == "4")
-                {
-                    ListAllRooms.Remove(guestBathroom);
-                }
-
-                Writer(house);
-                Writer("You and your spouse are going to see this open house today.\nYou arrive and the realtor greets" +
-                " you and says \"Hello! Welcome to the open house!\" You all walk\n inside and the realtor asks you,");
-
-                while (ListAllRooms.Count > 0)
-                {
-                    Writer("\"Which room would you like to see?\"");
-
-                    Writer("Please type the room you would like to see.");
-                    ListOfRooms();
-
-                    string response2 = Console.ReadLine();
-                    foreach (Rooms room in ListAllRooms)
+                    //Depending on the users budget, this will delete some rooms
+                    Writer("How much are you willing to spend on a house?");
+                    Writer("(Type the number that corresponds to the amount)");
+                    Writer("1) $0 - $50,000");
+                    Writer("2) $50,000 - $100,000");
+                    Writer("3) $100,000 - $200,000");
+                    Writer("4) $200,000 - $300,000");
+                    Writer("5) $300,000 - $500,000");
+                    string response = Console.ReadLine();
+                    if (response == "1")
                     {
-                        if (response2 == room.Name)
-                        {
-                            Console.Clear();
-                            room.runStory();
-                            ListAllRooms.Remove(room);
-                            break;
-                        }
+                        Writer("Go get some money.");
+                        Console.ReadLine();
+                        return;
+                    }
+                    if (response == "2")
+                    {
+                        ListAllRooms.Remove(basement);
+                        ListAllRooms.Remove(guestBathroom);
+                        ListAllRooms.Remove(backyard);
+                        Writer(smallHouse);
+                    }
+                    if (response == "3")
+                    {
+                        ListAllRooms.Remove(basement);
+                        ListAllRooms.Remove(guestBathroom);
+                        Writer(midHouse);
+                    }
+                    if (response == "4")
+                    {
+                        ListAllRooms.Remove(guestBathroom);
+                        Writer(midToBigHouse);
+                    }
+                    if (response == "5")
+                    {
+                        Writer(bigHouse);
                     }
 
-                }
-                Writer("After looking at all the rooms, you meet back up with the realtor.");
-                Console.ReadLine();
-                Writer("\"So how did you like the open house?\"she asked.");
-                Writer("Well what did you really think of the house?");
-                Writer("1)It was awesome");
-                Writer("2)It was nice");
-                Writer("3)It was average");
-                Writer("4)It was bad");
-                Writer("5)It was horrible");
-                string houseReview = Console.ReadLine();
 
-                if (houseReview.ToUpper() == "IT WAS AWESOME" || houseReview.ToLower() == "it was awesome" || houseReview == "1")
-                {
-                    Writer("\"Well I'm glad you liked it! Let me know if you'd like to make an offer\nand we can get connected with " +
-                        "the owners!\"the realtor replied.");
-                    Writer("Several years later, you find yourself in that very same house.");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Writer("Game Over");
+                    Writer("You and your spouse are going to see this open house today.\nYou arrive and the realtor greets" +
+                    " you and says \"Hello! Welcome to the open house!\" You all walk\n inside and the realtor asks you,");
+
+                    //Every time the user goes to a room, it deletes it from the list of rooms
+                    while (ListAllRooms.Count > 0)
+                    {
+                        Writer("\"Which room would you like to see?\"");
+
+                        Writer("Please type the room you would like to see.");
+                        ListOfRooms();
+
+                        string response2 = Console.ReadLine();
+                        foreach (Rooms room in ListAllRooms)
+                        {
+                            if (response2 == room.Name)
+                            {
+                                Console.Clear();
+                                room.runStory();
+                                ListAllRooms.Remove(room);
+                                break;
+                            }
+                        }
+
+                    }
+                    //Rating the open house
+                    Writer("After looking at all the rooms, you meet back up with the realtor.");
                     Console.ReadLine();
-                    Environment.Exit(-1);
-                }
-                if (houseReview.ToUpper() == "IT WAS NICE" || houseReview.ToLower() == "it was nice" || houseReview == "2")
-                {
-                    Writer("\"Well I'm glad you think so! If you're interested, I can get the owners and we can talk about pricing!\"");
-                    Writer("In the later years you do end up buying that very house, but with a small bit of regret.");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Writer("Game Over");
+                    Writer("\"So how did you like the open house?\"she asked.");
+                    Writer("Well what did you really think of the house?");
+                    Writer("1)It was awesome");
+                    Writer("2)It was nice");
+                    Writer("3)It was average");
+                    Writer("4)It was bad");
+                    Writer("5)It was horrible");
+                    string houseReview = Console.ReadLine();
+
+                    if (houseReview.ToUpper() == "IT WAS AWESOME" || houseReview.ToLower() == "it was awesome" || houseReview == "1")
+                    {
+                        Writer("\"Well I'm glad you liked it! Let me know if you'd like to make an offer\nand we can get connected with " +
+                            "the owners!\"the realtor replied.");
+                        Writer("Several years later, you find yourself in that very same house.");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Writer("Game Over");
+                        Console.ReadLine();
+                        Environment.Exit(-1);
+                    }
+                    if (houseReview.ToUpper() == "IT WAS NICE" || houseReview.ToLower() == "it was nice" || houseReview == "2")
+                    {
+                        Writer("\"Well I'm glad you think so! If you're interested, I can get the owners and we can talk about pricing!\"");
+                        Writer("In the later years you do end up buying that very house, but with a small bit of regret.");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Writer("Game Over");
+                        Console.ReadLine();
+                        Environment.Exit(-1);
+                    }
+                    if (houseReview.ToUpper() == "It was average" || houseReview.ToLower() == "IT WAS AVERAGE" || houseReview == "3")
+                    {
+                        Writer("\"Well keep in mind the owners did have a short amount of time to get this house ready before today.\nBut if you're interested," +
+                            "I can get a hold of the owners and see what price range we can come up with!\"");
+                        Writer("Some years later you find yourself in that very house, but you wish you hadn't bought it.");
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Writer("Game Over");
+                        Console.ReadLine();
+                        Environment.Exit(-1);
+                    }
+                    if (houseReview.ToUpper() == "IT WAS BAD" || houseReview.ToLower() == "it was bad" || houseReview == "4")
+                    {
+                        Writer("\"I'm sorry to hear that! I'll definitely let the owners know that you weren't pleased with the house!\"");
+                        Writer("Your hunt for a home continues on.");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Writer("Game Over");
+                        Console.ReadLine();
+                        Environment.Exit(-1);
+                    }
+                    if (houseReview.ToUpper() == "IT WAS HORRIBLE" || houseReview.ToLower() == "it was horrible" || houseReview == "5")
+                    {
+                        Writer("\"I'm terribly sorry to hear that! I'll let the owners know about how you felt about their house!\"");
+                        Writer("You couldn't believe how terrible that house looked.");
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Writer("Game Over");
+                        Console.ReadLine();
+                        Environment.Exit(-1);
+                    }
                     Console.ReadLine();
-                    Environment.Exit(-1);
+                    break;
                 }
-                if (houseReview.ToUpper() == "It was average" || houseReview.ToLower() == "IT WAS AVERAGE" || houseReview == "3")
+
+                //The builder path
+                if (num == 2)
                 {
-                    Writer("\"Well keep in mind the owners did have a short amount of time to get this house ready before today.\nBut if you're interested," +
-                        "I can get a hold of the owners and see what price range we can come up with!\"");
-                    Writer("Some years later you find yourself in that very house, but you wish you hadn't bought it.");
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Writer("Game Over");
+                    //Setting up the rooms for building a house
+                    Rooms builderLivingRoom = new Rooms()
+                    {
+                        Name = "Living Room",
+                        Furniture = livingRoomFurn
+                    }; BuilderRooms.Add(builderLivingRoom);
+
+                    Rooms builderKitchen = new Rooms()
+                    {
+                        Name = "Kitchen",
+                        Furniture = kitchenRoomFurn
+                    }; BuilderRooms.Add(builderKitchen);
+
+                    Rooms builderBathroom = new Rooms()
+                    {
+                        Name = "Bathroom",
+                        Furniture = bathRoomFurn
+                    }; BuilderRooms.Add(builderBathroom);
+
+                    Rooms builderUpBed = new Rooms()
+                    {
+                        Name = "Upstairs Bedroom",
+                        Furniture = upBedRoomFurn
+                    }; BuilderRooms.Add(builderUpBed);
+
+                    Rooms builderUpBath = new Rooms()
+                    {
+                        Name = "Upstairs Bathroom",
+                        Furniture = upBathRoomFurn
+                    }; BuilderRooms.Add(builderUpBath);
+
+                    Rooms builderAttic = new Rooms()
+                    {
+                        Name = "Attic",
+                        Furniture = atticRoomFurn
+                    }; BuilderRooms.Add(builderAttic);
+
+                    Rooms builderBack = new Rooms()
+                    {
+                        Name = "Backyard",
+                        Furniture = backyardRoomFurn
+                    }; BuilderRooms.Add(builderBack);
+
+                    Rooms builderMaster = new Rooms()
+                    {
+                        Name = "Master Bedroom",
+                        Furniture = masterRoomFurn
+                    }; BuilderRooms.Add(builderMaster);
+
+                    Rooms builderBasement = new Rooms()
+                    {
+                        Name = "Basement",
+                        Furniture = basementRoomFurn
+                    }; BuilderRooms.Add(builderBasement);
+
+                    Rooms builderDining = new Rooms()
+                    {
+                        Name = "Dining Room",
+                        Furniture = diningRoomFurn
+                    }; BuilderRooms.Add(builderDining);
+
+                    Writer("How much are you willing to spend on building a house?");
+                    Writer("(Please type an amount to set your budget)");
+                    string response = Console.ReadLine();
+                    double userBudget = double.Parse(response);
+
+                    //Based on the user answer, the program tells the user how easy it will be to build a house
+                    int roomCount = 0;
+                    if (userBudget <= 50000)
+                    {
+                        Writer("You're gonna need a little more money to build a house.");
+                        Console.ReadLine();
+                        return;
+                    }
+                    if (userBudget <= 100000 && userBudget > 50000)
+                    {
+                        Writer("It's gonna be difficult to build a house with this amount, but doable.");
+                        roomCount = 5;
+                        Console.ReadLine();
+                    }
+                    if (userBudget <= 200000 && userBudget > 100000)
+                    {
+                        Writer("Alright, we could build a smaller, but decent sized house.");
+                        roomCount = 6;
+                        Console.ReadLine();
+                    }
+                    if (userBudget <= 300000 && userBudget > 200000)
+                    {
+                        Writer("Ok, we can build a good looking house with this amount.");
+                        roomCount = 7;
+                        Console.ReadLine();
+                    }
+                    if (userBudget <= 500000 && userBudget > 300000)
+                    {
+                        Writer("With this amount, we can build the best house we can offer you.");
+                        roomCount = 10;
+                        Console.ReadLine();
+                    }
+                    if (userBudget > 500000)
+                    {
+                        Writer("Sorry, but we don't build mansion-sized houses.");
+                        Console.ReadLine();
+                        return;
+                    }
+                    //Setting up the room count
+                    Writer($"Based on your answer, the amount of rooms in your house will be {roomCount}");
                     Console.ReadLine();
-                    Environment.Exit(-1);
-                }
-                if (houseReview.ToUpper() == "IT WAS BAD" || houseReview.ToLower() == "it was bad" || houseReview == "4")
-                {
-                    Writer("\"I'm sorry to hear that! I'll definitely let the owners know that you weren't pleased with the house!\"");
-                    Writer("Your hunt for a home continues on.");
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Writer("Game Over");
+                    if (roomCount == 5)
+                    {
+                        BuilderRooms.Remove(builderUpBed);
+                        BuilderRooms.Remove(builderUpBath);
+                        BuilderRooms.Remove(builderAttic);
+                        BuilderRooms.Remove(builderBack);
+                        BuilderRooms.Remove(builderBasement);
+                        Writer($"The rooms that you will have are ");
+                        for (int i = 0; i < BuilderRooms.Count; i++)
+                        {
+                            Writer(BuilderRooms[i].Name);
+                        }
+                        Console.ReadLine();
+                    }
+                    if (roomCount == 6)
+                    {
+                        BuilderRooms.Remove(builderUpBed);
+                        BuilderRooms.Remove(builderUpBath);
+                        BuilderRooms.Remove(builderBack);
+                        BuilderRooms.Remove(builderBasement);
+                        Writer($"The rooms that you will have are ");
+                        for (int i = 0; i < BuilderRooms.Count; i++)
+                        {
+                            Writer(BuilderRooms[i].Name);
+                        }
+                        Console.ReadLine();
+                    }
+                    if (roomCount == 7)
+                    {
+                        BuilderRooms.Remove(builderUpBed);
+                        BuilderRooms.Remove(builderUpBath);
+                        BuilderRooms.Remove(builderBack);
+
+                        Writer($"The rooms that you will have are ");
+                        for (int i = 0; i < BuilderRooms.Count; i++)
+                        {
+                            Writer(BuilderRooms[i].Name);
+                        }
+                        Console.ReadLine();
+                    }
+                    if (roomCount == 10)
+                    {
+                        Writer($"The rooms that you will have are ");
+                        for (int i = 0; i < BuilderRooms.Count; i++)
+                        {
+                            Writer(BuilderRooms[i].Name);
+                        }
+                        Console.ReadLine();
+                    }
+
+
+                    int houseCost = 0;
+                    //Setting up the house cost
+                    if (userBudget <= 100000 && userBudget >= 50000)
+                    {
+                        houseCost = 50000;
+                        Writer($"The cost to build just the house alone will be ${houseCost}");
+                        newBudget = userBudget - houseCost;
+                        Writer($"So after building the house, you have ${newBudget} left.");
+                        Console.ReadLine();
+                    }
+                    if (userBudget <= 200000 && userBudget >= 100000)
+                    {
+                        houseCost = 100000;
+                        Writer($"The cost to build just the house alone will be ${houseCost}.");
+                        newBudget = userBudget - houseCost;
+                        Writer($"So after building the house, you have ${newBudget} left.");
+                        Console.ReadLine();
+                    }
+                    if (userBudget <= 300000 && userBudget >= 200000)
+                    {
+                        houseCost = 200000;
+                        Writer($"The cost to build the house alone will be ${houseCost}.");
+                        newBudget = userBudget - houseCost;
+                        Writer($"So after building the house, you have ${newBudget} left.");
+                        Console.ReadLine();
+                    }
+                    if (userBudget <= 500000 && userBudget >= 300000)
+                    {
+                        houseCost = 300000;
+                        Writer($"The cost to build the house alone will be ${houseCost}");
+                        newBudget = userBudget - houseCost;
+                        Writer($"So after building the house, you have ${newBudget} left.");
+                        Console.ReadLine();
+                    }
+
+                    Console.Clear();
+
+                    Writer("Now that we have the size of your house, let's put some furniture inside.");
+
+                    if (newBudget < 199.99)
+                    {
+                        Writer("Uh-oh, there isnt enough money in the budget to buy furniture!");
+                    }
                     Console.ReadLine();
-                    Environment.Exit(-1);
-                }
-                if (houseReview.ToUpper() == "IT WAS HORRIBLE" || houseReview.ToLower() == "it was horrible" || houseReview == "5")
-                {
-                    Writer("\"I'm terribly sorry to hear that! I'll let the owners know about how you felt about their house!\"");
-                    Writer("You couldn't believe how terrible that house looked.");
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Writer("Game Over");
+
+                    AddingMoreFurniture();
+
+                    if (furnCount == 0)
+                    {
+                        Writer("Well, since you don't have any furniture, let's move on.");
+                        Console.ReadLine();
+                    }
+                    if (furnCount > 0)
+                    {
+                        Writer($"Now that we have {furnCount} pieces of furniture, let's move on.");
+                        Console.ReadLine();
+                    }
+                    Writer("This is the furniture that you have purchased so far:");
+                    foreach(Rooms room in BuilderRooms)
+                    {
+                        foreach(string furn in room.Furniture)
+                        {
+                            Console.WriteLine(room.Name + ":" + furn);
+                        }
+                    }
                     Console.ReadLine();
-                    Environment.Exit(-1);
+                    break;
                 }
-                Console.ReadLine();
             }
-
-            if (eitherBuildOrSee == "2")
+            //If the user types random junk
+            while (!result)
             {
-                Writer("How much are you willing to spend on building a house?");
-                Writer("(Please type an amount to set your budget)");
-                string response = Console.ReadLine();
-                double userBudget = double.Parse(response);
-
-                int roomCount = 0;
-                if (userBudget <= 50000)
-                {
-                    Writer("You're gonna need a little more money to build a house.");
-                    Console.ReadLine();
-                    return;
-                }
-                if (userBudget <= 100000 && userBudget > 50000)
-                {
-                    Writer("It's gonna be difficult to build a house with this amount, but doable.");
-                    roomCount = 5;
-                    Console.ReadLine();
-                }
-                if (userBudget <= 200000 && userBudget > 100000)
-                {
-                    Writer("Alright, we could build a smaller, but decent sized house.");
-                    roomCount = 6;
-                    Console.ReadLine();
-                }
-                if (userBudget <= 300000 && userBudget > 200000)
-                {
-                    Writer("Ok, we can build a good looking house with this amount.");
-                    roomCount = 7;
-                    Console.ReadLine();
-                }
-                if (userBudget <= 500000 && userBudget > 300000)
-                {
-                    Writer("With this amount, we can build the best house we can offer you.");
-                    roomCount = 10;
-                    Console.ReadLine();
-                }
-                if (userBudget > 500000)
-                {
-                    Writer("Sorry, but we don't build mansion-sized houses.");
-                    Console.ReadLine();
-                    return;
-                }
-
-                Writer($"Based on your answer, the amount of rooms in your house will be {roomCount}");
+                Console.WriteLine("That was not a valid answer.");
                 Console.ReadLine();
-                if (roomCount == 5)
-                {
-                    Writer("The rooms that you will have are Living Room, Kitchen, Bathroom, Master Bedroom, and Dining Room.");
-                    Console.ReadLine();
-                }
-                if (roomCount == 6)
-                {
-                    Writer("The rooms that you will have are Living Room, Kitchen, Bathroom, Attic, Master Bedroom, and Dining Room.");
-                    Console.ReadLine();
-                }
-                if (roomCount == 7)
-                {
-                    Writer("The rooms that you will have are Living Room, Kitchen, Bathroom, Attic, Basement, Master Bedroom, and Dining Room.");
-                    Console.ReadLine();
-                }
-                if (roomCount == 10)
-                {
-                    Writer("The rooms that you will have are Living Room, Kitchen, Bathroom, Upstairs Bedroom, Upstairs Bathroom, \nAttic, Backyard, Master Bedroom, Basement, and Dining Room.");
-                    Console.ReadLine();
-                }
-
-
-                int houseCost = 0;
-                
-                if (userBudget <= 100000 && userBudget >= 50000)
-                {
-                    houseCost = 50000;
-                    Writer($"The cost to build just the house alone will be ${houseCost}");
-                    newBudget = userBudget - houseCost;
-                    Writer($"So after building the house, you have ${newBudget} left.");
-                    Console.ReadLine();
-                }
-                if (userBudget <= 200000 && userBudget >= 100000)
-                {
-                    houseCost = 100000;
-                    Writer($"The cost to build just the house alone will be ${houseCost}.");
-                    newBudget = userBudget - houseCost;
-                    Writer($"So after building the house, you have ${newBudget} left.");
-                    Console.ReadLine();
-                }
-                if (userBudget <= 300000 && userBudget >= 200000)
-                {
-                    houseCost = 200000;
-                    Writer($"The cost to build the house alone will be ${houseCost}.");
-                    newBudget = userBudget - houseCost;
-                    Writer($"So after building the house, you have ${newBudget} left.");
-                    Console.ReadLine();
-                }
-                if (userBudget <= 500000 && userBudget >= 300000)
-                {
-                    houseCost = 300000;
-                    Writer($"The cost to build the house alone will be ${houseCost}");
-                    newBudget = userBudget - houseCost;
-                    Writer($"So after building the house, you have ${newBudget} left.");
-                    Console.ReadLine();
-                }
-
-                Writer("Now that we have the size of your house, let's put some furniture inside.");
-                Console.ReadLine();
-                if(newBudget < 199.99)
-                {
-                    Writer("Uh-oh, there isnt enough money in the budget to buy furniture!");
-
-                }
-                Writer("These are all the furniture options that are available.");
-
-                FurnitureRepository thing = new FurnitureRepository();
-                thing.ShowAllProducts();
-                Console.ReadLine();
-
-                AddingMoreFurniture();
-
-                if(furnCount == 0)
-                {
-                    Writer("Well, since you don't have any furniture, let's move on.");
-                }
-                Writer($"Now that we have {furnCount} pieces of furniture, let's move on.");
-                Console.ReadLine();
+                break;
             }
+
+
         }
 
     }
