@@ -9,9 +9,9 @@ using System.Net;
 
 namespace OpenHouseProject
 {
-    class FurnitureRepository
+    class Repository
     {
-        public FurnitureRepository()
+        public Repository()
         {
 #if DEBUG
             string jsonText = File.ReadAllText("appsettings.development.json");
@@ -27,7 +27,7 @@ namespace OpenHouseProject
 
         public List<Furniture> ShowAllProducts()
         {
-            Console.WriteLine("ID  Name     Price");
+            Console.WriteLine("ID     Name     Price");
             MySqlConnection thing = new MySqlConnection(connStr);
             List<Furniture> products = new List<Furniture>();
             using (thing)
@@ -52,6 +52,35 @@ namespace OpenHouseProject
                 return products;
             }
         }
+
+        public List<Appliance> ShowAllAppliances()
+        {
+            Console.WriteLine("ID     Name     Price");
+            MySqlConnection thing = new MySqlConnection(connStr);
+            List<Appliance> products = new List<Appliance>();
+            using (thing)
+            {
+                thing.Open();
+                MySqlCommand cmd = thing.CreateCommand();
+                cmd.CommandText = "SELECT * FROM appliances";
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Appliance product = new Appliance()
+                    {
+                        Id = (int)rdr["Id"],
+                        Name = rdr["Name"].ToString(),
+                        Price = (double)rdr["Price"],
+                    };
+                    products.Add(product);
+                    Console.WriteLine($"{product.Id}.....{product.Name}.....{product.Price}");
+                }
+
+                return products;
+            }
+        }
+
         public void ShowSpecificFurniture(int id)
         {
             MySqlConnection thing2 = new MySqlConnection(connStr);
@@ -66,6 +95,30 @@ namespace OpenHouseProject
                 while (rdr.Read())
                 {
                     Furniture product = new Furniture()
+                    {
+                        Id = (int)rdr["id"],
+                        Name = rdr["name"].ToString(),
+                        Price = (double)rdr["price"]
+                    };
+                    Console.WriteLine($"{product.Id}.....{product.Name}.....{product.Price}");
+                }
+            }
+        }
+
+        public void ShowSpecificAppliance(int id)
+        {
+            MySqlConnection thing2 = new MySqlConnection(connStr);
+            using (thing2)
+            {
+                thing2.Open();
+                MySqlCommand cmd = thing2.CreateCommand();
+                cmd.CommandText = "Select * from appliances Where id = @id";
+                cmd.Parameters.AddWithValue("id", id);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                while (rdr.Read())
+                {
+                    Appliance product = new Appliance()
                     {
                         Id = (int)rdr["id"],
                         Name = rdr["name"].ToString(),
@@ -94,6 +147,25 @@ namespace OpenHouseProject
                 return product.Price;
             }
         }
+
+        public double GetPriceOfSpecificAppliance(int id)
+        {
+            MySqlConnection thing = new MySqlConnection(connStr);
+            Appliance product = new Appliance();
+            using (thing)
+            {
+                thing.Open();
+                MySqlCommand cmd = thing.CreateCommand();
+                cmd.CommandText = "SELECT price FROM appliances WHERE id = @id";
+                cmd.Parameters.AddWithValue("id", id);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    product.Price = (double)rdr["Price"];
+                }
+                return product.Price;
+            }
+        }
         public string GetNameOfSpecificFurn(int id)
         {
             MySqlConnection thing = new MySqlConnection(connStr);
@@ -103,6 +175,25 @@ namespace OpenHouseProject
                 thing.Open();
                 MySqlCommand cmd = thing.CreateCommand();
                 cmd.CommandText = "SELECT name FROM products WHERE id = @id";
+                cmd.Parameters.AddWithValue("id", id);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    product.Name = rdr["name"].ToString();
+                }
+                return product.Name;
+            }
+        }
+
+        public string GetNameOfSpecificAppliance(int id)
+        {
+            MySqlConnection thing = new MySqlConnection(connStr);
+            Appliance product = new Appliance();
+            using (thing)
+            {
+                thing.Open();
+                MySqlCommand cmd = thing.CreateCommand();
+                cmd.CommandText = "SELECT name FROM appliances WHERE id = @id";
                 cmd.Parameters.AddWithValue("id", id);
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())

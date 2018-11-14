@@ -24,6 +24,9 @@ namespace OpenHouseProject
         public static List<string> masterRoomFurn = new List<string>();
         public static List<string> basementRoomFurn = new List<string>();
         public static List<string> diningRoomFurn = new List<string>();
+        public static List<string> ExtraServices = new List<string>();
+        public static List<string> CustomerServices = new List<string>();
+        public static List<string> Appliances = new List<string>();
         //Typewriter for all text Method
         static void Writer(string message, ConsoleColor color = ConsoleColor.Blue, int delay = 25)
         {
@@ -57,110 +60,306 @@ namespace OpenHouseProject
                 return;
             }
 
-            FurnitureRepository repo = new FurnitureRepository();
+            Repository repo = new Repository();
             foreach (Rooms room in BuilderRooms)
             {
                 Writer("Here are all the products that you can choose from.");
                 repo.ShowAllProducts();
 
+
                 Writer("Please type the product id of the furniture you would like to put in your house.");
                 string productResponse = Console.ReadLine();
-                int furnitureResponse = int.Parse(productResponse);
-                Furniture furn = new Furniture()
+                bool result = Int32.TryParse(productResponse, out int num);
+                while (result)
                 {
-                    Id = furnitureResponse
-                };
+                    Furniture furn = new Furniture()
+                    {
+                        Id = num
+                    };
 
-                Writer("Is this the furniture you want?");
-                repo.ShowSpecificFurniture(furnitureResponse);
-                string answer = Console.ReadLine();
-                if (newBudget == 0)
-                {
-                    Writer("Uh-oh! You don't have any money left!");
-                    Writer("Looks like we can't buy anymore furniture.");
-                    Console.ReadLine();
-                    return;
+                    Writer("Is this the furniture you want?");
+                    repo.ShowSpecificFurniture(num);
+                    string answer = Console.ReadLine();
+                    if (newBudget == 0)
+                    {
+                        Writer("Uh-oh! You don't have any money left!");
+                        Writer("Looks like we can't buy anymore furniture.");
+                        Console.ReadLine();
+                        return;
+                    }
+                    if (newBudget < furn.Price)
+                    {
+                        Writer($"Oops! You only have ${newBudget} and are not able to purchase this furniture.");
+                        Writer("Would you like to try again?");
+                        string budgetResponse = Console.ReadLine();
+                        if (budgetResponse.ToUpper() == "YES")
+                        {
+                            AddingMoreFurniture();
+                        }
+                        return;
+                    }
+                    if (answer.ToUpper() == "YES")
+                    {
+                        Writer("Please pick the room that you would like to put this furniture in.");
+                        for (int i = 0; i < BuilderRooms.Count; i++)
+                        {
+                            Writer(BuilderRooms[i].Name);
+                        }
+                        string roomResponse = Console.ReadLine();
+                        if (roomResponse.ToUpper() == "LIVING ROOM")
+                        {
+                            livingRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "KITCHEN")
+                        {
+                            kitchenRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "BATHROOM")
+                        {
+                            bathRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "UPSTAIRS BEDROOM")
+                        {
+                            upBedRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "UPSTAIRS BATHROOM")
+                        {
+                            upBathRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "ATTIC")
+                        {
+                            atticRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "BACKYARD")
+                        {
+                            backyardRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "MASTER BEDROOM")
+                        {
+                            masterRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "BASEMENT")
+                        {
+                            basementRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        if (roomResponse.ToUpper() == "DINING ROOM")
+                        {
+                            diningRoomFurn.Add(repo.GetNameOfSpecificFurn(num));
+                        }
+                        newBudget -= repo.GetPriceOfSpecificFurn(num);
+                        Writer($"After purchasing this furniture, the remaining budget is {newBudget}.");
+                        furnCount++;
+                        Console.ReadLine();
+                        Writer("Do you want to add more furniture?");
+                        Writer("Maybe to another room?");
+                        string addMore = Console.ReadLine();
+                        if (addMore.ToUpper() == "YES")
+                        {
+                            AddingMoreFurniture();
+                        }
+                        return;
+                    }
+                    if (answer.ToUpper() == "NO")
+                    {
+                        Writer("Alright, let's try again from the beginning.");
+                        Console.ReadLine();
+                        AddingMoreFurniture();
+                    }
                 }
-                if (newBudget < furn.Price)
+                while (!result)
                 {
-                    Writer($"Oops! You only have ${newBudget} and are not able to purchase this furniture.");
-                    Writer("Would you like to try again?");
-                    string budgetResponse = Console.ReadLine();
-                    if (budgetResponse.ToUpper() == "YES")
+                    Writer("The answer that you gave was not accepted. Would you like to start over?");
+                    string startOver = Console.ReadLine();
+                    if (startOver.ToUpper() == "YES")
                     {
                         AddingMoreFurniture();
                     }
                     return;
-                }
-                if (answer.ToUpper() == "YES")
-                {
-                    Writer("Please pick the room that you would like to put this furniture in.");
-                    for (int i = 0; i < BuilderRooms.Count; i++)
-                    {
-                        Writer(BuilderRooms[i].Name);
-                    }
-                    string roomResponse = Console.ReadLine();
-                    if (roomResponse.ToUpper() == "LIVING ROOM")
-                    {
-                        livingRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "KITCHEN")
-                    {
-                        kitchenRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "BATHROOM")
-                    {
-                        bathRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "UPSTAIRS BEDROOM")
-                    {
-                        upBedRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "UPSTAIRS BATHROOM")
-                    {
-                        upBathRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "ATTIC")
-                    {
-                        atticRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "BACKYARD")
-                    {
-                        backyardRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "MASTER BEDROOM")
-                    {
-                        masterRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "BASEMENT")
-                    {
-                        basementRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    if (roomResponse.ToUpper() == "DINING ROOM")
-                    {
-                        diningRoomFurn.Add(repo.GetNameOfSpecificFurn(furnitureResponse));
-                    }
-                    newBudget -= repo.GetPriceOfSpecificFurn(furnitureResponse);
-                    Writer($"After purchasing this furniture, the remaining budget is {newBudget}.");
-                    furnCount++;
-                    Console.ReadLine();
-                    Writer("Do you want to add more furniture?");
-                    Writer("Maybe to another room?");
-                    string addMore = Console.ReadLine();
-                    if (addMore.ToUpper() == "YES")
-                    {
-                        AddingMoreFurniture();
-                    }
-                    return;
-                }
-                if (answer.ToUpper() == "NO")
-                {
-                    Writer("Alright, let's try again from the beginning.");
-                    Console.ReadLine();
-                    AddingMoreFurniture();
                 }
             }
+        }
 
+        static void Services()
+        {
+            while (ExtraServices.Count > 0 && newBudget > 199.99)
+            {
+                Console.Clear();
+                foreach (string serv in ExtraServices)
+                {
+                    Writer(serv);
+                }
+                Writer("If you would like to use any of these services, please type the service's corresponding number.");
+                string serviceAnswer = Console.ReadLine();
+                //The Gardener
+                if (serviceAnswer == "1")
+                {
+                    Writer("The gardener offers services such as lawn mowing, weed trimming, bush trimming, and flower planting.");
+                    Console.ReadLine();
+                    Writer("You can select an individual service for $750, or all 4 for a total of $2500 for a year.");
+                    Console.ReadLine();
+                    Writer("How many services would you like to add?");
+
+                    string gardenService = Console.ReadLine();
+                    bool result = Int32.TryParse(gardenService, out int num);
+                    while (result)
+                    {
+                        if (num > 4)
+                        {
+                            Writer("Woops! There is not enough services to add!\nWould you like to try again?");
+                            string tryAgain = Console.ReadLine();
+                            if (tryAgain.ToUpper() == "YES")
+                            {
+                                Services();
+                            }
+                            return;
+                        }
+                        while (num <= 4)
+                        {
+                            Writer("Please type the services you would like to add");
+                            for (int i = 0; i < num; i++)
+                            {
+                                string bleh = Console.ReadLine();
+                                string addingServices = bleh.ToUpper();
+                                if (addingServices.Contains("LAWN") || addingServices.Contains("1"))
+                                {
+                                    CustomerServices.Add("Lawn Mowing");
+                                }
+                                if (addingServices.Contains("WEED") || addingServices.Contains("2"))
+                                {
+                                    CustomerServices.Add("Weed Trimming");
+                                }
+                                if (addingServices.Contains("BUSH") || addingServices.Contains("3"))
+                                {
+                                    CustomerServices.Add("Bush Trimming");
+                                }
+                                if (addingServices.Contains("FLOWER") || addingServices.Contains("4"))
+                                {
+                                    CustomerServices.Add("Flower Planting");
+                                }
+
+                            }
+                            Writer("So the services you want are:");
+                            foreach (string serv in CustomerServices)
+                            {
+                                Writer(serv);
+                            }
+                            Writer("Is this correct?");
+                            string correctService = Console.ReadLine();
+                            if (correctService.ToUpper() == "NO")
+                            {
+                                Writer("Sorry about that! Let's try again from the beginning");
+                                Console.ReadLine();
+                                Services();
+                            }
+                            if (num < 4)
+                            {
+                                Writer($"So after hiring the gardener, you will be paying {750 * num}");
+                                Console.ReadLine();
+                                newBudget -= 750 * num;
+                            }
+                            if (num == 4)
+                            {
+                                Writer("Because you're getting all four services from the gardener, you will be paying $2500 for services for a year.");
+                                Console.ReadLine();
+                                newBudget -= 2500;
+                            }
+                            Writer($"After hiring the gardener, your budget is now {newBudget}.");
+                            Console.ReadLine();
+                            Writer("Would you like to hire any other proffesional services?");
+                            ExtraServices.Remove("1) Gardening - $2500");
+                            Writer("(Type yes to add more services or no to move on)");
+                            string anyMore = Console.ReadLine();
+                            if (anyMore.ToUpper() == "YES")
+                            {
+                                Services();
+                            }
+                            return;
+                        }
+                        break;
+                    }
+                }
+                //Some new appliances
+                if (serviceAnswer == "2")
+                {
+
+                    Writer("New appliances can be cool, but also expensive.");
+                    Console.ReadLine();
+                    Repository appliances = new Repository();
+                    Writer("These are all the available appliances that we offer:");
+                    appliances.ShowAllAppliances();
+                    Console.ReadLine();
+                    if (newBudget < 199.99)
+                    {
+                        Writer("Oh no! Looks like you don't have enough money to buy anymore appliances, or services! Looks like we'll have to move on.");
+                        Console.ReadLine();
+                        return;
+                    }
+                    Writer("Please type the Id number of the appliance you would like to buy.");
+                    string bleh = Console.ReadLine();
+                    bool result = Int32.TryParse(bleh, out int appChoice);
+                    while (result)
+                    {
+                        Writer("Is this the appliance that you want?");
+                        appliances.ShowSpecificAppliance(appChoice);
+                        string rightApp = Console.ReadLine();
+                        if (rightApp.ToUpper() == "YES")
+                        {
+                            Appliances.Add(appliances.GetNameOfSpecificAppliance(appChoice));
+                            double price = appliances.GetPriceOfSpecificAppliance(appChoice);
+                            newBudget -= price;
+                            Writer("So far, these are the appliances that you have bought:");
+                            foreach (string appliance in Appliances)
+                            {
+                                Writer(appliance);
+                            }
+                            Writer($"and your budget is now {newBudget}");
+                            Console.ReadLine();
+                            Writer("Would you like to add any more appliances?");
+                            string addMore = Console.ReadLine();
+                            if (addMore.ToUpper() == "YES")
+                            {
+                                Services();
+                            }
+
+
+                            Appliances.Remove("2) New Appliances - Price varies");
+                            Writer("Would you like to add any more services?");
+                            string moreServices = Console.ReadLine();
+                            if (moreServices.ToUpper() == "YES")
+                            {
+                                Services();
+                            }
+                            return;
+                        }
+                        if (rightApp.ToUpper() == "NO")
+                        {
+                            Writer("Oh no! Would you like to try again?");
+                            string tryAgain = Console.ReadLine();
+                            if (tryAgain.ToUpper() == "YES")
+                            {
+                                Services();
+                            }
+                            return;
+                        }
+                    }
+                    while (!result)
+                    {
+                        Writer("Woops! That was not an appliance choice! Would you like to try again?");
+                        string tryAgain = Console.ReadLine();
+                        if (tryAgain.ToUpper() == "YES")
+                        {
+                            Services();
+                        }
+                        return;
+                    }
+                }
+            }
+            while (newBudget <= 199.99)
+            {
+                Writer("Uh-oh! You don't have enough funds! Let's move on.");
+                Console.ReadLine();
+                return;
+            }
 
         }
 
@@ -492,7 +691,7 @@ namespace OpenHouseProject
    _.-'_~-_~-_-~-_~_~-_~-_`-._
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     |  []  []   []   []  [] |
-jgs |           __    ___   |
+    |           __    ___   |
   ._|  []  []  | .|  [___]  |_._._._._._._._._._._._._._._._._.
   |=|________()|__|()_______|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|=|
 ^^^^^^^^^^^^^^^ === ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -845,7 +1044,7 @@ jgs |           __    ___   |
 
                     int houseCost = 0;
                     //Setting up the house cost
-                    if (userBudget <= 100000 && userBudget >= 50000)
+                    if (userBudget <= 100000 && userBudget > 50000)
                     {
                         houseCost = 50000;
                         Writer($"The cost to build just the house alone will be ${houseCost}");
@@ -853,7 +1052,7 @@ jgs |           __    ___   |
                         Writer($"So after building the house, you have ${newBudget} left.");
                         Console.ReadLine();
                     }
-                    if (userBudget <= 200000 && userBudget >= 100000)
+                    if (userBudget <= 200000 && userBudget > 100000)
                     {
                         houseCost = 100000;
                         Writer($"The cost to build just the house alone will be ${houseCost}.");
@@ -861,7 +1060,7 @@ jgs |           __    ___   |
                         Writer($"So after building the house, you have ${newBudget} left.");
                         Console.ReadLine();
                     }
-                    if (userBudget <= 300000 && userBudget >= 200000)
+                    if (userBudget <= 300000 && userBudget > 200000)
                     {
                         houseCost = 200000;
                         Writer($"The cost to build the house alone will be ${houseCost}.");
@@ -869,7 +1068,7 @@ jgs |           __    ___   |
                         Writer($"So after building the house, you have ${newBudget} left.");
                         Console.ReadLine();
                     }
-                    if (userBudget <= 500000 && userBudget >= 300000)
+                    if (userBudget <= 500000 && userBudget > 300000)
                     {
                         houseCost = 300000;
                         Writer($"The cost to build the house alone will be ${houseCost}");
@@ -882,10 +1081,7 @@ jgs |           __    ___   |
 
                     Writer("Now that we have the size of your house, let's put some furniture inside.");
 
-                    if (newBudget < 199.99)
-                    {
-                        Writer("Uh-oh, there isnt enough money in the budget to buy furniture!");
-                    }
+
                     Console.ReadLine();
 
                     AddingMoreFurniture();
@@ -897,17 +1093,80 @@ jgs |           __    ___   |
                     }
                     if (furnCount > 0)
                     {
-                        Writer($"Now that we have {furnCount} pieces of furniture, let's move on.");
-                        Console.ReadLine();
-                    }
-                    Writer("This is the furniture that you have purchased so far:");
-                    foreach(Rooms room in BuilderRooms)
-                    {
-                        foreach(string furn in room.Furniture)
+                        Writer("This is the furniture that you have purchased so far:");
+                        foreach (Rooms room in BuilderRooms)
                         {
-                            Console.WriteLine(room.Name + ":" + furn);
+                            foreach (string furn in room.Furniture)
+                            {
+                                Console.WriteLine("A " + furn + " in the " + room.Name + ".");
+                                Console.ReadLine();
+                            }
                         }
                     }
+
+                    //Other Extra services
+
+                    ExtraServices.Add("1) Gardening - $2500");
+                    ExtraServices.Add("2) New Appliances - Price varies");
+
+                    Console.Clear();
+                    Writer("For the next step in building your house, we have some connections that offer the following services and the costs for each.");
+                    Console.ReadLine();
+                    Services();
+                    Console.ReadLine();
+                    //The End / Review
+                    Writer("Now it's time to review your house!");
+                    Console.ReadLine();
+                    Writer("The rooms you have are:");
+                    foreach (Rooms room in BuilderRooms)
+                    {
+                        Writer(room.Name);
+                    }
+                    Console.ReadLine();
+                    Writer("The furniture that you've bought:");
+                    if (livingRoomFurn.Count > 0 || kitchenRoomFurn.Count > 0 || bathRoomFurn.Count > 0 || upBedRoomFurn.Count > 0 || upBathRoomFurn.Count > 0 || atticRoomFurn.Count > 0 || backyardRoomFurn.Count > 0 || masterRoomFurn.Count > 0 || basementRoomFurn.Count > 0 || diningRoomFurn.Count > 0)
+                    {
+                        foreach (Rooms room in BuilderRooms)
+                        {
+                            foreach (string furn in room.Furniture)
+                            {
+                                Writer("A " + furn + " in the " + room.Name);
+                            }
+                        }
+                        Console.ReadLine();
+                    }
+
+                    else
+                    {
+                        Writer("You did not buy any furniture.");
+                        Console.ReadLine();
+                    }
+
+                    Writer("The extra services you've bought:");
+                    if (CustomerServices.Count > 0)
+                    {
+                        Writer("These are the services you bought from the gardener:");
+                        foreach (string garden in CustomerServices)
+                        {
+                            Writer(garden);
+                        }
+                        Console.ReadLine();
+                    }
+                    if (Appliances.Count > 0)
+                    {
+                        Writer("These are the appliances you bought:");
+                        foreach (string app in Appliances)
+                        {
+                            Writer(app);
+                        }
+                        Console.ReadLine();
+                    }
+                    if (CustomerServices.Count <= 0 && Appliances.Count <= 0)
+                    {
+                        Writer("You did not buy any extra services.");
+                        Console.ReadLine();
+                    }
+                    Writer($"And finally, your final budget was {newBudget}.");
                     Console.ReadLine();
                     break;
                 }
@@ -917,11 +1176,10 @@ jgs |           __    ___   |
             {
                 Console.WriteLine("That was not a valid answer.");
                 Console.ReadLine();
+                Console.Clear();
+                Main(args);
                 break;
             }
-
-
         }
-
     }
 }
