@@ -13,6 +13,9 @@ namespace OpenHouseProject
     {
         public static int furnCount = 0;
         public static double newBudget = 0;
+        public static double furnPrice = 0;
+        public static double gardenPrice = 0;
+        public static double appPrice = 0;
         public static List<Rooms> BuilderRooms = new List<Rooms>();
         public static List<string> livingRoomFurn = new List<string>();
         public static List<string> kitchenRoomFurn = new List<string>();
@@ -57,6 +60,7 @@ namespace OpenHouseProject
             {
                 Writer("Uh-oh, there isnt enough money in the budget to buy furniture!");
                 Writer("Looks like we'll have to move on until you can get more money!");
+                Console.ReadLine();
                 return;
             }
 
@@ -100,6 +104,7 @@ namespace OpenHouseProject
                     }
                     if (answer.ToUpper() == "YES")
                     {
+                        furnPrice += repo.GetPriceOfSpecificFurn(num);
                         Writer("Please pick the room that you would like to put this furniture in.");
                         for (int i = 0; i < BuilderRooms.Count; i++)
                         {
@@ -254,14 +259,16 @@ namespace OpenHouseProject
                             if (num < 4)
                             {
                                 Writer($"So after hiring the gardener, you will be paying {750 * num}");
+                                gardenPrice += 750 * num;
                                 Console.ReadLine();
-                                newBudget -= 750 * num;
+                                newBudget -= gardenPrice;
                             }
                             if (num == 4)
                             {
                                 Writer("Because you're getting all four services from the gardener, you will be paying $2500 for services for a year.");
+                                gardenPrice += 2500;
                                 Console.ReadLine();
-                                newBudget -= 2500;
+                                newBudget -= gardenPrice;
                             }
                             Writer($"After hiring the gardener, your budget is now {newBudget}.");
                             Console.ReadLine();
@@ -306,6 +313,7 @@ namespace OpenHouseProject
                         {
                             Appliances.Add(appliances.GetNameOfSpecificAppliance(appChoice));
                             double price = appliances.GetPriceOfSpecificAppliance(appChoice);
+                            appPrice += price;
                             newBudget -= price;
                             Writer("So far, these are the appliances that you have bought:");
                             foreach (string appliance in Appliances)
@@ -323,6 +331,12 @@ namespace OpenHouseProject
 
 
                             Appliances.Remove("2) New Appliances - Price varies");
+                            if(ExtraServices.Count == 0)
+                            {
+                                Writer("There are no more services to add, so we'll move on.");
+                                Console.ReadLine();
+                                return;
+                            }
                             Writer("Would you like to add any more services?");
                             string moreServices = Console.ReadLine();
                             if (moreServices.ToUpper() == "YES")
@@ -751,7 +765,7 @@ namespace OpenHouseProject
             Writer("You have been saving money for quite a while now, and you would like to purchase a house. You have 2 options.\n1) Go see an open house.\n2) Build a house.");
             string eitherBuildOrSee = Console.ReadLine();
             bool result = Int32.TryParse(eitherBuildOrSee, out int num);
-            while (result)
+            while (num == 1 || num == 2 && result)
             {
                 if (num == 1)
                 {
@@ -763,36 +777,42 @@ namespace OpenHouseProject
                     Writer("3) $100,000 - $200,000");
                     Writer("4) $200,000 - $300,000");
                     Writer("5) $300,000 - $500,000");
-                    string response = Console.ReadLine();
-                    if (response == "1")
+                    string thing = Console.ReadLine();
+                    int response = int.Parse(thing);
+                    if (response == 1)
                     {
                         Writer("Go get some money.");
                         Console.ReadLine();
                         return;
                     }
-                    if (response == "2")
+                    if (response == 2)
                     {
                         ListAllRooms.Remove(basement);
                         ListAllRooms.Remove(guestBathroom);
                         ListAllRooms.Remove(backyard);
                         Writer(smallHouse);
                     }
-                    if (response == "3")
+                    if (response == 3)
                     {
                         ListAllRooms.Remove(basement);
                         ListAllRooms.Remove(guestBathroom);
                         Writer(midHouse);
                     }
-                    if (response == "4")
+                    if (response == 4)
                     {
                         ListAllRooms.Remove(guestBathroom);
                         Writer(midToBigHouse);
                     }
-                    if (response == "5")
+                    if (response == 5)
                     {
                         Writer(bigHouse);
                     }
-
+                    if(response > 5)
+                    {
+                        Writer("There is not an answer corresponding to that number");
+                        Console.ReadLine();
+                        Main(args);
+                    }
 
                     Writer("You and your spouse are going to see this open house today.\nYou arrive and the realtor greets" +
                     " you and says \"Hello! Welcome to the open house!\" You all walk\n inside and the realtor asks you,");
@@ -1086,11 +1106,6 @@ namespace OpenHouseProject
 
                     AddingMoreFurniture();
 
-                    if (furnCount == 0)
-                    {
-                        Writer("Well, since you don't have any furniture, let's move on.");
-                        Console.ReadLine();
-                    }
                     if (furnCount > 0)
                     {
                         Writer("This is the furniture that you have purchased so far:");
@@ -1166,13 +1181,15 @@ namespace OpenHouseProject
                         Writer("You did not buy any extra services.");
                         Console.ReadLine();
                     }
-                    Writer($"And finally, your final budget was {newBudget}.");
+
+                    Writer($"The total amount of money you spent on building this house was ${houseCost + furnPrice + appPrice + gardenPrice}");
+                    Writer($"And finally, your final budget was ${newBudget}.");
                     Console.ReadLine();
                     break;
                 }
             }
             //If the user types random junk
-            while (!result)
+            while (num > 2 || !result)
             {
                 Console.WriteLine("That was not a valid answer.");
                 Console.ReadLine();
