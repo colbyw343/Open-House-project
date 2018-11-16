@@ -258,7 +258,7 @@ namespace OpenHouseProject
                             }
                             if (num < 4)
                             {
-                                Writer($"So after hiring the gardener, you will be paying {750 * num}");
+                                Writer($"So after hiring the gardener, you will be paying ${750 * num}");
                                 gardenPrice += 750 * num;
                                 Console.ReadLine();
                                 newBudget -= gardenPrice;
@@ -270,7 +270,7 @@ namespace OpenHouseProject
                                 Console.ReadLine();
                                 newBudget -= gardenPrice;
                             }
-                            Writer($"After hiring the gardener, your budget is now {newBudget}.");
+                            Writer($"After hiring the gardener, your budget is now ${newBudget}.");
                             Console.ReadLine();
                             Writer("Would you like to hire any other proffesional services?");
                             ExtraServices.Remove("1) Gardening - $2500");
@@ -320,7 +320,7 @@ namespace OpenHouseProject
                             {
                                 Writer(appliance);
                             }
-                            Writer($"and your budget is now {newBudget}");
+                            Writer($"and your budget is now ${newBudget}");
                             Console.ReadLine();
                             Writer("Would you like to add any more appliances?");
                             string addMore = Console.ReadLine();
